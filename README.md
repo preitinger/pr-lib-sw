@@ -9,7 +9,7 @@ Base utility functions for managing a service worker.
 <code>
 // app/api/to-cache/route.ts
 
-import { toCache_POST } from "@/app/_lib/submodules/pr-lib-sw/routes/toCache";
+import { toCache_POST } from "@/app/_lib/submodules/pr-lib-sw/routes/api/to-cache/route";
 
 export const POST = toCache_POST;
 </code>
