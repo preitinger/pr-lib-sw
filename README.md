@@ -2,9 +2,14 @@
 
 Base utility functions for managing a service worker.
 
+## Dependencies
+
+- runtypes
+- pr-lib-utils
+
 ## Beispiele
 
-### Anwendung von routes/toCache.ts:
+### Anwendung von routes/toCache.ts: (TODO english)
 
 <code>
 // app/api/to-cache/route.ts
