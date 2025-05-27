@@ -1,5 +1,5 @@
 import assert from "assert";
-import { TSkipWaiting } from "./serviceWorkerMessages";
+import { TSkipWaiting } from "../pr-lib-sw-utils/messages";
 
 // export let swCheckingRaw = true;
 // const swCheckingListeners: (() => void)[] = [];
