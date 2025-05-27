@@ -5,6 +5,7 @@ Base utility functions for managing a service worker.
 ## Dependencies
 
 - runtypes
+- pr-lib-sw-utils
 - pr-lib-utils
 
 ## Beispiele

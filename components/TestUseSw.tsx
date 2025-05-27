@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useId, useState } from "react";
 import { Container, Navbar } from "react-bootstrap";
-import { TVersion, versionToString } from "../../pr-lib-utils/both";
 import { doRequest, I18nRequiredForDoRequest } from "../../pr-lib-utils/client";
 import ReadonlyText from "../../pr-lib-utils/client/components/ReadonlyText";
 import SpinningButton from "../../pr-lib-utils/client/components/SpinningButton";
@@ -10,6 +9,7 @@ import { ManagedSwListener } from "../ManagedSw";
 import useSw from "../hooks/useSw";
 import { GetVersionRes, TGetVersionReq, TGetVersionRes } from "../requests";
 import { MANAGED_SW } from "@/app/_lib/client/swSingleton";
+import { TVersion, versionToString } from "../../pr-lib-sw-utils/sw-utils";
 
 
 export default function TestUseSw({

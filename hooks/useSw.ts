@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { TVersion } from '../../pr-lib-utils/both';
 import ManagedSw, { ManagedSwListener } from '../ManagedSw';
+import { TVersion } from "../../pr-lib-sw-utils/sw-utils";
 
 
 export default function useSw(/* l: I18nRequiredForDoRequest & UtilsClArg */): [

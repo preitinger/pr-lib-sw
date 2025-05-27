@@ -1,6 +1,6 @@
 import assert from "assert";
-import { TSkipWaiting } from "./serviceWorkerMessages";
-import { TVersion, versionToString } from "../pr-lib-utils/both";
+import { TVersion, versionToString } from "../pr-lib-sw-utils/sw-utils";
+import { TSkipWaiting } from "../pr-lib-sw-utils/messages";
 
 export type ManagedSwState = 'starting' | 'updating-at-start' | 'running' | 'version-conflict' | 'updating' | 'error';
 

@@ -1,8 +1,8 @@
 
 
-import { TVersion } from '@/app/_lib/submodules/pr-lib-utils/both';
 import { NextRequest, NextResponse } from "next/server";
 import { GetVersionReq, TGetVersionRes } from '../../../requests';
+import { TVersion } from "@/app/_lib/submodules/pr-lib-sw-utils/sw-utils";
 
 function myRes(res: TGetVersionRes): NextResponse {
     console.log('/api/getVersion res', res);

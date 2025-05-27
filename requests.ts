@@ -1,5 +1,5 @@
 import * as rt from 'runtypes'
-import { Version } from '../pr-lib-utils/both'
+import { Version } from '../pr-lib-sw-utils/sw-utils'
 
 // These are requests to application server routes, not to the service worker. Those are in `./serviceWorkerMessages.ts`.
 

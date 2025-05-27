@@ -9,7 +9,8 @@ import { doRequest } from "../../pr-lib-utils/client";
 import { GetVersionRes, TGetVersionReq, TGetVersionRes } from "../requests";
 import { i18nClientArg } from "@/app/[lang]/i18nClientArg";
 import { VERSION } from "@/app/_lib/both/version";
-import { sleep, TVersion, versionToString } from "../../pr-lib-utils/both";
+import { sleep } from "../../pr-lib-utils/both";
+import { TVersion, versionToString } from "../../pr-lib-sw-utils/sw-utils";
 
 const managedSw = typeof window === 'object' ? new ManagedSw('/sw.js', '/') : null;
 
