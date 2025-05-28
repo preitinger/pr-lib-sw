@@ -10,6 +10,8 @@ import useSw from "../hooks/useSw";
 import { GetVersionRes, TGetVersionReq, TGetVersionRes } from "../requests";
 import { MANAGED_SW } from "@/app/_lib/client/swSingleton";
 import { TVersion, versionToString } from "../../pr-lib-sw-utils/sw-utils";
+import UpdateForNavbar from "./UpdateForNavbar";
+import { libSwClientDe } from "../i18n/de/client";
 
 
 export default function TestUseSw({
@@ -21,8 +23,10 @@ export default function TestUseSw({
 }) {
     const idPrefix = useId();
 
-    const [swChecking, updatingAtStart, updateAvailable, updateSpinning, setManagedSw, onVersionConflict, onUpdateNow] = useSw();
+    const [setManagedSw, onVersionConflict, updateForNavbarProps] = useSw();
     const [state, setState] = useState('');
+
+    const swChecking = updateForNavbarProps.swChecking;
 
     function id(suffix: string) {
         return idPrefix + suffix;
@@ -36,6 +40,7 @@ export default function TestUseSw({
 
                 switch (e.type) {
                     case 'stateChanged':
+                        console.log('stateChanged to ', managedSw.state);
                         setState(managedSw.state);
                         break;
                 }
@@ -76,10 +81,7 @@ export default function TestUseSw({
     return <>
         <Navbar>
             <Navbar.Brand>TestUseSw {versionToString(clientVersion)}</Navbar.Brand>
-            {
-                updatingAtStart && <p>Installiere neue Version ...</p>
-            }
-            {updateAvailable != null && <SpinningButton disabled={updateSpinning} spinning={updateSpinning} onClick={() => onUpdateNow()}>{updateAvailable}</SpinningButton>}
+            <UpdateForNavbar l={libSwClientDe} {...updateForNavbarProps} />
         </Navbar >
         <Container>
             <ReadonlyText controlId={id('state')} label='state' value={state} />

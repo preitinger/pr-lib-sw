@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import ManagedSw, { ManagedSwListener } from '../ManagedSw';
+import ManagedSw, { ManagedSwListener, TUpdateAvailable } from '../ManagedSw';
 import { TVersion } from "../../pr-lib-sw-utils/sw-utils";
 
-
-export default function useSw(/* l: I18nRequiredForDoRequest & UtilsClArg */): [
+export type UpdateForNavbarProps = {
     swChecking: boolean,
     updatingAtStart: boolean,
-    /**
-     * Falls Update verfuegbar: string des update buttons, sonst null
-     */
-    updateAvailable: string | null,
-    updateSpinning: boolean,
+    updateAvailable: TUpdateAvailable | null;
+    updateSpinning: boolean;
+    onUpdateNow(): void;
+}
+
+export default function useSw(/* l: I18nRequiredForDoRequest & UtilsClArg */): [
     setManagedSw: (managedSw: ManagedSw) => void,
     onVersionConflict: (client: TVersion, server: TVersion) => void,
-    onUpdateNow: () => void,
+    updateForNavbarProps: UpdateForNavbarProps,
 ] {
     const [swChecking, setSwChecking] = useState(true);
     const [updatingAtStart, setUpdatingAtStart] = useState(false);
-    const [updateAvailable, setUpdateAvailable] = useState<string | null>(null);
+    const [updateAvailable, setUpdateAvailable] = useState<TUpdateAvailable | null>(null);
     const [updateSpinning, setUpdateSpinning] = useState(false);
 
     const managedSwRef = useRef<ManagedSw | null>(null);
@@ -93,12 +93,14 @@ export default function useSw(/* l: I18nRequiredForDoRequest & UtilsClArg */): [
     }, [])
 
     return [
-        swChecking,
-        updatingAtStart,
-        updateAvailable,
-        updateSpinning,
         setManagedSw,
         onVersionConflict,
-        onUpdateNow,
+        {
+            swChecking,
+            updatingAtStart,
+            updateAvailable,
+            updateSpinning,
+            onUpdateNow,
+        },
     ]
 }

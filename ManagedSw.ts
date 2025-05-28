@@ -1,6 +1,6 @@
 import assert from "assert";
-import { TVersion, versionToString } from "../pr-lib-sw-utils/sw-utils";
 import { TSkipWaiting } from "../pr-lib-sw-utils/messages";
+import { TVersion } from "../pr-lib-sw-utils/sw-utils";
 
 export type ManagedSwState = 'starting' | 'updating-at-start' | 'running' | 'version-conflict' | 'updating' | 'error';
 
@@ -10,6 +10,10 @@ export type ManagedSwEvent = {
 
 export type ManagedSwListener = (e: ManagedSwEvent) => void;
 
+export type TUpdateAvailable = {
+    client: TVersion;
+    server: TVersion;
+}
 export default class ManagedSw {
     constructor(scriptURL: string | URL, scope: string) {
         dbg('constructor of ManagedSw');
@@ -100,9 +104,8 @@ export default class ManagedSw {
         }
     }
 
-    get updateAvailable(): string | null {
-        if (this._versionConflict == null) return null;
-        return versionToString(this._versionConflict.client) + ' -> ' + versionToString(this._versionConflict.server);
+    get updateAvailable(): TUpdateAvailable | null {
+        return this._versionConflict;
     }
 
     addListener(l: ManagedSwListener) {
@@ -238,7 +241,7 @@ export default class ManagedSw {
     private _reg: ServiceWorkerRegistration | null = null;
     private reloading = false;
     private _skipWaiting = false;
-    private _versionConflict: VersionConflict | null = null;
+    private _versionConflict: TUpdateAvailable | null = null;
 }
 
 /**
@@ -250,10 +253,5 @@ type State = 'registering' | 'updating-at-start' | 'installing-at-start' |
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function dbg(...args: unknown[]) {
-    console.error('ManagedSw.dbg(7)  ', ...args);
-}
-
-type VersionConflict = {
-    client: TVersion;
-    server: TVersion;
+    console.debug('[ManagedSw]   :', ...args);
 }
