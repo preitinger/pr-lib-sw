@@ -5,21 +5,19 @@ import { Button, Container } from "react-bootstrap";
 import ReadonlyText from "../../pr-lib-utils/client/components/ReadonlyText";
 import ManagedSw, { ManagedSwListener } from "../ManagedSw";
 import assert from "assert";
-import { doRequest } from "../../pr-lib-utils/client";
+import { doRequest, I18nRequiredForDoRequest } from "../../pr-lib-utils/client";
 import { GetVersionRes, TGetVersionReq, TGetVersionRes } from "../requests";
-import { i18nClientArg } from "@/app/[lang]/i18nClientArg";
-import { VERSION } from "@/app/_lib/both/version";
 import { sleep } from "../../pr-lib-utils/both";
 import { TVersion, versionToString } from "../../pr-lib-sw-utils/sw-utils";
 
 const managedSw = typeof window === 'object' ? new ManagedSw('/sw.js', '/') : null;
 
-const l = i18nClientArg('de');
-
 export default function TestManagedSw({
+    l, 
     clientVersion
 }: {
-    clientVersion: TVersion
+    l: I18nRequiredForDoRequest;
+    clientVersion: TVersion;
 }) {
     const [serverVersion, setServerVersion] = useState<TVersion | null>(null);
     const [state, setState] = useState('');
@@ -57,8 +55,8 @@ export default function TestManagedSw({
             switch (json.type) {
                 case 'success':
                     setServerVersion(json.version);
-                    if (json.version.main !== VERSION.main || json.version.sub !== VERSION.sub) {
-                        managedSw?.versionConflict(VERSION, json.version);
+                    if (json.version.main !== clientVersion.main || json.version.sub !== clientVersion.sub) {
+                        managedSw?.versionConflict(clientVersion, json.version);
                     }
                     break;
                 case 'error':
@@ -67,7 +65,7 @@ export default function TestManagedSw({
             }
         })
 
-    }, [clientVersion])
+    }, [l, clientVersion])
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -88,14 +86,14 @@ export default function TestManagedSw({
             {
             },
             GetVersionRes,
-            VERSION,
+            clientVersion,
             () => { },
         ).then(json => {
             switch (json.type) {
                 case 'success':
                     setServerVersion(json.version);
-                    if (json.version.main !== VERSION.main || json.version.sub !== VERSION.sub) {
-                        managedSw?.versionConflict(VERSION, json.version);
+                    if (json.version.main !== clientVersion.main || json.version.sub !== clientVersion.sub) {
+                        managedSw?.versionConflict(clientVersion, json.version);
                         sleep(1).then(() => {
                             managedSw?.updateNow();
                         })
@@ -109,7 +107,7 @@ export default function TestManagedSw({
     }
 
     return <Container className='mt-3'>
-        <ReadonlyText className='mb-3' controlId={id('clientVersion')} label='client version' value={versionToString(VERSION)} />
+        <ReadonlyText className='mb-3' controlId={id('clientVersion')} label='client version' value={versionToString(clientVersion)} />
         <ReadonlyText className='mb-3' controlId={id('serverVersion')} label='server version' value={serverVersion == null ? 'null' : versionToString(serverVersion)} />
         <ReadonlyText className='mb-3' controlId={id('state')} label='state' value={state} />
         <Button className='me-3 mb-3' onClick={() => getVersion(undefined)}>getVersion()</Button>
