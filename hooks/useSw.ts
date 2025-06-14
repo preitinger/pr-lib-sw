@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import ManagedSw, { ManagedSwListener, TUpdateAvailable } from '../ManagedSw';
 import { TVersion } from "../../pr-lib-sw-utils/sw-utils";
