@@ -113,13 +113,14 @@ export default class ManagedSw {
     }
     
     removeListener(l: ManagedSwListener) {
-        const n = this.listeners.length;
-        for (let i = 0; i < n ;++i) {
-            if (this.listeners[i] === l) {
-                this.listeners.splice(i, 1);
-                break;
-            }
-        }
+        this.listeners = this.listeners.filter(l1 => l1 !== l);
+        // const n = this.listeners.length;
+        // for (let i = 0; i < n ;++i) {
+        //     if (this.listeners[i] === l) {
+        //         this.listeners.splice(i, 1);
+        //         break;
+        //     }
+        // }
     }
 
     versionConflict(client: TVersion, server: TVersion) {
